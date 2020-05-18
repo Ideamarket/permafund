@@ -22,7 +22,7 @@ contract Permafund {
         uint32[] memory proportions = new uint32[](1);
         proportions[0] = 100;
 
-        require(rDai.createHat(recipients, proportions, true), "failed to create rDai hat");
+        rDai.createHat(recipients, proportions, true);
     }
 
     function deposit(uint _amount) external {
