@@ -17,12 +17,7 @@ contract Permafund {
         dai = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
         rDai = IRDai(0x261b45D85cCFeAbb11F022eBa346ee8D1cd488c0);
 
-        address[] memory recipients = new address[](1);
-        recipients[0] = _recipient;
-        uint32[] memory proportions = new uint32[](1);
-        proportions[0] = 100;
-
-        rDai.createHat(recipients, proportions, true);
+        setHat();
     }
 
     function deposit(uint _amount) external {
@@ -31,5 +26,14 @@ contract Permafund {
         require(dai.approve(address(rDai), _amount), "dai rdai approve failed");
         require(rDai.mint(_amount), "rdai mint failed");
         emit Deposit(msg.sender, _amount);
+    }
+
+    function setHat() private {
+        address[] memory recipients = new address[](1);
+        recipients[0] = recipient;
+        uint32[] memory proportions = new uint32[](1);
+        proportions[0] = 100;
+
+        rDai.createHat(recipients, proportions, true);
     }
 }
