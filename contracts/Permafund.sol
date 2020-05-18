@@ -17,8 +17,10 @@ contract Permafund {
         dai = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
         rDai = IRDai(0x261b45D85cCFeAbb11F022eBa346ee8D1cd488c0);
 
-        address[] memory recipients = [_recipient];
-        uint32[] memory proportions = [100];
+        address[] memory recipients = new address[](1);
+        recipients[0] = _recipient;
+        uint32[] memory proportions = new uint32[](1);
+        proportions[0] = 100;
 
         require(rDai.createHat(recipients, proportions, true), "failed to create rDai hat");
     }
