@@ -13,8 +13,9 @@ contract PermafundFactory {
 
         address permafund = address(new Permafund(recipient));
         permafunds[recipient] = permafund;
-
         emit NewPermafund(recipient, permafund);
+
+        return permafund;
     }
 }
 
