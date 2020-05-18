@@ -9,7 +9,7 @@ contract PermafundFactory {
     event NewPermafund(address recipient, address permafund);
 
     function deployPermafund(address recipient) external returns (address) {
-        require(permafunds[recipient] == address(0), "Permafund exists already");
+        require(permafunds[recipient] == address(0), "permafund exists already");
 
         address permafund = address(new Permafund(recipient));
         permafunds[recipient] = permafund;
