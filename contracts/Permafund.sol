@@ -12,10 +12,10 @@ contract Permafund {
 
     event Deposit(address from, uint amount);
 
-    constructor(address _recipient) public {
+    constructor(address _recipient, address _dai, address _rDai) public {
         recipient = _recipient;
-        dai = IERC20(0x6B175474E89094C44Da98b954EedeAC495271d0F);
-        rDai = IRDai(0x261b45D85cCFeAbb11F022eBa346ee8D1cd488c0);
+        dai = IERC20(_dai);
+        rDai = IRDai(_rDai);
 
         setHat();
     }
