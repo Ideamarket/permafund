@@ -23,11 +23,11 @@ contract Permafund {
         require(rDai.createHat(recipients, proportions, true), "failed to create rDai hat");
     }
 
-    function deposit(uint amount) external {
-        require(dai.allowance(msg.sender, address(this)) >= amount, "not enough dai allowance");
-        require(dai.transferFrom(msg.sender, address(this), amount), "dai transfer failed");
-        require(dai.approve(address(rDai), amount), "dai rdai approve failed");
-        require(rDai.mint(amount), "rdai mint failed");
-        emit Deposit(msg.sender, amount);
+    function deposit(uint _amount) external {
+        require(dai.allowance(msg.sender, address(this)) >= _amount, "not enough dai allowance");
+        require(dai.transferFrom(msg.sender, address(this), _amount), "dai transfer failed");
+        require(dai.approve(address(rDai), _amount), "dai rdai approve failed");
+        require(rDai.mint(_amount), "rdai mint failed");
+        emit Deposit(msg.sender, _amount);
     }
 }
