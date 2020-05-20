@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// import example from './module-example'
-
+import permafund from './permafund'
 Vue.use(Vuex)
 
 /*
@@ -17,7 +16,7 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      // example
+      permafund
     },
 
     // enable strict mode (adds overhead!)

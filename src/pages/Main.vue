@@ -18,7 +18,6 @@ export default {
 
 <style scoped>
 .permafundInteractionContainer {
-  display: block;
   width: 500px;
   max-width: 500px;
   margin: 0 auto;

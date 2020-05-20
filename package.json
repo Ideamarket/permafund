@@ -15,7 +15,8 @@
     "@openzeppelin/contracts": "^3.0.1",
     "@openzeppelin/test-helpers": "^0.5.5",
     "@quasar/extras": "^1.0.0",
-    "quasar": "^1.0.0"
+    "quasar": "^1.0.0",
+    "web3": "^1.2.7"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",
