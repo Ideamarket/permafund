@@ -46,7 +46,7 @@ contract TestRDai is ERC20, IRDai {
         return hats[_hatID].proportions;
     }
 
-    function payInterest(address owner) external returns (bool) {
+    function payInterest(address owner) external override returns (bool) {
         // Not implemented
         return true;
     }
