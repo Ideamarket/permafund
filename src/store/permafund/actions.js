@@ -41,12 +41,12 @@ export async function create (context, recipientAddress) {
 
   const factory = new web3.eth.Contract(PermafundFactoryArtifact.abi, PermafundFactoryArtifact.networks['1'].address)
 
-  if (await factory.methods.permafunds.call(recipientAddress) !== ZERO_ADDR) {
+  if (await factory.methods.permafunds(recipientAddress).call() !== ZERO_ADDR) {
     throw new Error('Recipient has Permafund already')
   }
 
   try {
-    await factory.methods.deployPermafund.send(recipientAddress)
+    await factory.methods.deployPermafund(recipientAddress).send({ from: web3.eth.defaultAccount })
   } catch (ex) {
     throw new Error('Transaction failed')
   }
@@ -66,8 +66,7 @@ export async function donate (context, params) {
   const recipientAddress = params.recipientAddress.trim()
   // web3 bn cannot handle numbers with decimals
   const amount = new web3.utils.BN(new BigNumber(params.amount.trim()).multipliedBy(new BigNumber('10').exponentiatedBy(new BigNumber('18'))).toString())
-  console.log(params.amount, amount.toString())
-  if (amount.eq(new web3.utils.BN('0'))) {
+  if (amount.lte(new web3.utils.BN('0'))) {
     throw new Error('Amount must be greater than zero')
   }
 
@@ -77,16 +76,16 @@ export async function donate (context, params) {
 
   const factory = new web3.eth.Contract(PermafundFactoryArtifact.abi, PermafundFactoryArtifact.networks['1'].address)
   const dai = new web3.eth.Contract(IERC20.abi, DAI_ADDR)
-  const permafund = await factory.methods.permafunds.call(recipientAddress)
+  const permafund = await factory.methods.permafunds(recipientAddress).call()
 
   if (permafund === ZERO_ADDR) {
     throw new Error('Recipient does not have a Permafund')
   }
 
-  const allowance = await dai.methods.allowance(web3.defaultAccount.address, permafund)
+  const allowance = await dai.methods.allowance(web3.defaultAccount.address, permafund).call()
   if (allowance.lt(amount)) {
     try {
-      await dai.methods.approve.send(permafund, amount)
+      await dai.methods.approve(permafund, amount).send({ from: web3.eth.defaultAccount })
     } catch (ex) {
       throw new Error('Transaction failed')
     }
@@ -94,7 +93,7 @@ export async function donate (context, params) {
 
   try {
     const permafundContract = new web3.eth.Contract(Permafund.abi, permafund)
-    await permafundContract.methods.deposit.send(amount)
+    await permafundContract.methods.deposit(amount).send({ from: web3.eth.defaultAccount })
   } catch (ex) {
     throw new Error('Transaction failed')
   }
@@ -113,14 +112,14 @@ export async function payInterest (context, recipientAddress) {
 
   const factory = new web3.eth.Contract(PermafundFactoryArtifact.abi, PermafundFactoryArtifact.networks['1'].address)
   const rDai = new web3.eth.Contract(IRDai.abi, RDAI_ADDR)
-  const permafund = await factory.methods.permafunds.call(recipientAddress)
+  const permafund = await factory.methods.permafunds(recipientAddress).call()
 
   if (permafund === ZERO_ADDR) {
     throw new Error('Recipient does not have a Permafund')
   }
 
   try {
-    await rDai.methods.payInterest.send(permafund)
+    await rDai.methods.payInterest(permafund).send({ from: web3.eth.defaultAccount })
   } catch (ex) {
     throw new Error('Transaction failed')
   }
