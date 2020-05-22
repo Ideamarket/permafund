@@ -61,7 +61,7 @@ module.exports = {
       network_id: 1,
       timeoutBlocks: 10000, // no timeout
       gas: 2000000,
-      gasPrice: 35000000000 // 40 gwei
+      gasPrice: 5000000000 // 5 gwei
     },
     // Another network with more advanced options...
     // advanced: {
