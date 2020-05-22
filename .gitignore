@@ -2,6 +2,9 @@
 .thumbs.db
 node_modules
 
+# We are using yarn
+package-lock.json
+
 # Quasar core related directories
 .quasar
 /dist
